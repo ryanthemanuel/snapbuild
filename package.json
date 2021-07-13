@@ -8,7 +8,7 @@
     "prepublish": "yarn build",
     "build": "tsc -p ./tsconfig.json",
     "lint": "prettier -c ./src/",
-    "postinstall": "node ./dist/snapbuild.js"
+    "postinstall": "node ./dist/post-install.js"
   },
   "directories": {
     "dist": "./dist/"

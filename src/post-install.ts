@@ -1,9 +1,9 @@
-import debug from 'debug'
-import path from 'path'
 import { strict as assert } from 'assert'
-import { sync as pkgup } from 'pkg-up'
 import { execSync } from 'child_process'
-import resolveFrom from 'resolve-from'
+import debug from 'debug'
+import fs from 'fs'
+import path from 'path'
+import { sync as pkgup } from 'pkg-up'
 import { platformKey, unixLikePackages, windowsPackages } from './platforms'
 
 const { version } = require('../package.json')
@@ -39,21 +39,47 @@ function installFromNpm(packName: string, version: string) {
     process.exit(1)
   }
 
-  const installLocation = resolveFrom(installRoot, packName)
-  logDebug('Installed to %s', installLocation)
+  // resolve-from uses `Module._nodeModulePaths` which could miss the `node_modules` folder we installed to
+  // if it wasn't present at script start (rare but possible).
+  // Therefore we need to run this in a separate process.
+  try {
+    const resolveScript = require.resolve('./resolve')
+    const installLocation = execSync(`${process.execPath} ${resolveScript}`, {
+      env: {
+        INSTALL_ROOT: installRoot,
+        PACK_NAME: packName,
+      },
+    })
+    logDebug('Installed to %s', installLocation)
+    return installLocation.toString()
+  } catch (err) {
+    console.error('Failed to resolve installed %s', pack)
+    console.error(err)
+    process.exit(1)
+  }
 }
 
 function install() {
+  let installLocation: string
   if (unixLikePackages.has(platformKey)) {
     const packName = unixLikePackages.get(platformKey)!
-    installFromNpm(packName, version)
+    installLocation = installFromNpm(packName, version)
   } else if (windowsPackages.has(platformKey)) {
     const packName = windowsPackages.get(platformKey)!
-    installFromNpm(packName, version)
+    installLocation = installFromNpm(packName, version)
   } else {
     console.error('Unsupported platform ${platformKey}')
     process.exit(1)
   }
+
+  const main = path.join(__dirname, 'snapbuild.js')
+  const relInstallLocation = path.relative(
+    path.dirname(main),
+    installLocation.trim()
+  )
+  const snapbuild = `module.exports = { binary: require.resolve('${relInstallLocation}') }`
+  logDebug('Writing main to %s', main)
+  fs.writeFileSync(main, snapbuild, 'utf8')
 }
 
 install()
