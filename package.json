@@ -5,13 +5,13 @@
   "main": "dist/snapbuild.js",
   "types": "dist/snapbuild.d.ts",
   "scripts": {
-    "prepublish": "yarn build",
+    "prepublish": "yarn build && rm -f ./dist/snapbuild.js",
     "build": "tsc -p ./tsconfig.json",
     "lint": "prettier -c ./src/",
     "postinstall": "node ./dist/post-install.js"
   },
   "directories": {
-    "dist": "./dist/"
+    "dist": "./dist"
   },
   "files": [
     "dist/*"
