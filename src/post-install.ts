@@ -72,7 +72,7 @@ function install() {
     process.exit(1)
   }
 
-  const main = path.join(__dirname, 'snapbuild.js')
+  const main = path.join(__dirname, '..', 'snapbuild.js')
   const relInstallLocation = path.relative(
     path.dirname(main),
     installLocation.trim()

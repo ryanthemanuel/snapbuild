@@ -2,10 +2,10 @@
   "name": "snapbuild",
   "version": "0.0.117",
   "description": "Downloads binary for your architecture of tool that makes code snapshotable.",
-  "main": "dist/snapbuild.js",
-  "types": "dist/snapbuild.d.ts",
+  "main": "snapbuild.js",
+  "types": "snapbuild.d.ts",
   "scripts": {
-    "prepublish": "yarn build && rm -f ./dist/snapbuild.js",
+    "prepublish": "yarn build",
     "build": "tsc -p ./tsconfig.json",
     "lint": "prettier -c ./src/",
     "postinstall": "node ./dist/post-install.js"
@@ -14,7 +14,8 @@
     "dist": "./dist"
   },
   "files": [
-    "dist/*"
+    "dist/*",
+    "snapbuild.d.ts"
   ],
   "dependencies": {
     "debug": "^4.3.1",
