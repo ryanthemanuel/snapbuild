@@ -13,9 +13,7 @@ const logTrace = debug('snapbuild:trace')
 const logDebug = debug('snapbuild:debug')
 
 const packRoot = path.join(__dirname, '..')
-const binDir = path.join(packRoot, 'bin')
-// @ts-ignore
-const binFullPath = path.join(binDir, 'snapshot')
+const destination = path.join(packRoot, 'platform-binary')
 
 logInfo('Running')
 
@@ -72,14 +70,13 @@ function install() {
     process.exit(1)
   }
 
-  const main = path.join(__dirname, '..', 'snapbuild.js')
-  const relInstallLocation = path.relative(
-    path.dirname(main),
-    installLocation.trim()
-  )
-  const snapbuild = `module.exports = { binary: require.resolve('${relInstallLocation}') }`
-  logDebug('Writing main to %s', main)
-  fs.writeFileSync(main, snapbuild, 'utf8')
+  const installRoot = path.join(path.dirname(installLocation), '..')
+  try {
+    logDebug('Moving from install location %s to %s', installRoot, destination)
+    fs.renameSync(installRoot, destination)
+  } catch (err) {
+    console.error('Failed to move installed platform specific snapbuild module')
+  }
 }
 
 install()

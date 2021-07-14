@@ -15,6 +15,7 @@
   },
   "files": [
     "dist/*",
+    "snapbuild.js",
     "snapbuild.d.ts"
   ],
   "dependencies": {
