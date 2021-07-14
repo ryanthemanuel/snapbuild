@@ -5,30 +5,28 @@
   "main": "snapbuild.js",
   "types": "snapbuild.d.ts",
   "scripts": {
-    "prepublish": "yarn build",
-    "build": "tsc -p ./tsconfig.json",
-    "lint": "prettier -c ./src/",
-    "postinstall": "node ./dist/post-install.js"
-  },
-  "directories": {
-    "dist": "./dist"
+    "lint": "prettier -c ./*.js"
   },
   "files": [
-    "dist/*",
     "snapbuild.js",
     "snapbuild.d.ts"
   ],
-  "dependencies": {
-    "debug": "^4.3.1",
-    "pkg-up": "^3.1.0",
-    "resolve-from": "^5.0.0",
-    "snapbuild-darwin-64": "0.0.116"
-  },
   "devDependencies": {
-    "@types/debug": "^4.1.5",
-    "@types/node": "^14.14.20",
-    "prettier": "^2.2.1",
-    "typescript": "^4.1.3"
+    "prettier": "^2.2.1"
+  },
+  "optionalDependencies": {
+    "snapbuild-android-arm64": "0.0.118",
+    "snapbuild-darwin-64": "0.0.118",
+    "snapbuild-freebsd-64": "0.0.118",
+    "snapbuild-freebsd-arm64": "0.0.118",
+    "snapbuild-linux-32": "0.0.118",
+    "snapbuild-linux-64": "0.0.118",
+    "snapbuild-linux-arm": "0.0.118",
+    "snapbuild-linux-arm64": "0.0.118",
+    "snapbuild-linux-mips64le": "0.0.118",
+    "snapbuild-linux-ppc64le": "0.0.118",
+    "snapbuild-windows-32": "0.0.118",
+    "snapbuild-windows-64": "0.0.118"
   },
   "repository": "https://github.com/thlorenz/snapbuild.git",
   "author": "Thorsten Lorenz <thlorenz@gmx.de>",
