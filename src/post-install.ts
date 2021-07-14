@@ -28,7 +28,7 @@ function getInstallRoot() {
 function installFromNpm(packName: string, version: string) {
   const pack = `${packName}@${version}`
   const installRoot = getInstallRoot()
-  const cmd = `npm install --loglevel=error --prefer-offline --no-audit --progress=false ${pack}`
+  const cmd = `npm install --loglevel=error --prefer-offline --no-audit --progress=false --no-save ${pack}`
   logDebug('installing %s from %s', pack, installRoot)
   logTrace(cmd)
   try {
