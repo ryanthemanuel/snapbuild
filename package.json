@@ -1,6 +1,6 @@
 {
   "name": "snapbuild",
-  "version": "0.0.121",
+  "version": "0.0.122",
   "description": "Downloads binary for your architecture of tool that makes code snapshotable.",
   "main": "snapbuild.js",
   "types": "snapbuild.d.ts",
